@@ -1,0 +1,7 @@
+digraph example3 {
+    N0[label="ai_behavior"];
+    N1[label="event"];
+    N2[label="input"];
+    N0 -> N1[label=""];
+    N1 -> N2[label=""];
+}
