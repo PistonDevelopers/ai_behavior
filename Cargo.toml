@@ -1,0 +1,19 @@
+[package]
+
+name = "ai_behavior"
+version = "0.0.0"
+authors = [
+    "bvssvni <bvssvni@gmail.com>",
+    "Coeuvre <coeuvre@gmail.com>"
+]
+tags = []
+
+[lib]
+
+name = "ai_behavior"
+path = "src/lib.rs"
+
+[dependencies.event]
+
+git = "https://github.com/PistonDevelopers/event"
+
