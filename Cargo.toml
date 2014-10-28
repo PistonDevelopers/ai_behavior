@@ -17,3 +17,6 @@ path = "src/lib.rs"
 
 git = "https://github.com/PistonDevelopers/event"
 
+[[test]]
+
+name = "tests"
