@@ -384,7 +384,7 @@ impl<A: Clone, S> State<A, S> {
                 // Get the least delta time left over.
                 let mut min_dt = std::f64::MAX_VALUE;
                 for j in range(*i, cursors.len()) {
-                    match cursors.get_mut(j).event(
+                    match cursors[j].event(
                         e, |e, dt, a, s| f(e, dt, a, s)
                     ) {
                         (Running, _) => { min_dt = 0.0; }

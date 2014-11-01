@@ -1,4 +1,4 @@
-#![deny(missing_doc)]
+#![deny(missing_docs)]
 
 //! AI behavior tree
 
@@ -34,4 +34,3 @@ pub use status::{
 mod behavior;
 mod state;
 mod status;
-
