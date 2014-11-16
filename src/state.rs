@@ -28,6 +28,7 @@ use {
     WhenAny,
     While,
 };
+use std::num::FloatMath;
 
 pub static RUNNING: (Status, f64) = (Running, 0.0);
 
