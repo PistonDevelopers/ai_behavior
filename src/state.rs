@@ -28,6 +28,22 @@ use {
     WhenAny,
     While,
 };
+use state::State::{
+    PressedState,
+    ReleasedState,
+    ActionState,
+    FailState,
+    AlwaysSucceedState,
+    WaitState,
+    WaitForeverState,
+    IfState,
+    SelectState,
+    SequenceState,
+    WhileState,
+    WhenAllState,
+    WhenAnyState,
+    AfterState,
+};
 use std::num::FloatMath;
 
 pub static RUNNING: (Status, f64) = (Running, 0.0);

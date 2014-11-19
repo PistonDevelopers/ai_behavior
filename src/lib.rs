@@ -6,11 +6,11 @@ extern crate event;
 extern crate input;
 extern crate serialize;
 
-pub use behavior::{
+pub use behavior::Behavior;
+pub use behavior::Behavior::{
     Action,
     After,
     AlwaysSucceed,
-    Behavior,
     If,
     Fail,
     Pressed,
@@ -24,9 +24,9 @@ pub use behavior::{
     While,
 };
 pub use state::State;
-pub use status::{
+pub use status::Status;
+pub use status::Status::{
     Failure,
-    Status,
     Success,
     Running,
 };
