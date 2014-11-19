@@ -1,8 +1,7 @@
-use event::{
-    Event,
+use event::Event::{
     Update,
-    UpdateArgs,
 };
+use event::{Event, UpdateArgs};
 use ai_behavior::{
     Action,
     State,
@@ -11,6 +10,11 @@ use ai_behavior::{
     Wait,
     WhenAll,
     While,
+};
+
+use test_events::TestActions::{
+    Inc,
+    Dec,
 };
 
 /// Some test actions.
