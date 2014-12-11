@@ -18,9 +18,9 @@ homepage = "https://github.com/pistondevelopers/ai_behavior"
 name = "ai_behavior"
 path = "src/lib.rs"
 
-[dependencies.pistoncore-event]
+[dependencies]
 
-git = "https://github.com/PistonDevelopers/event"
+pistoncore-event = "0.0.0"
 
 [[test]]
 
