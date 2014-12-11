@@ -1,19 +1,24 @@
 [package]
 
-name = "ai_behavior"
+name = "piston-ai_behavior"
 version = "0.0.0"
 authors = [
     "bvssvni <bvssvni@gmail.com>",
     "Coeuvre <coeuvre@gmail.com>"
 ]
-tags = []
+tags = ["ai", "behavior", "piston", "game", "logic"]
+description = "AI behavior tree"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/pistondevelopers/ai_behavior.git"
+homepage = "https://github.com/pistondevelopers/ai_behavior"
 
 [lib]
 
 name = "ai_behavior"
 path = "src/lib.rs"
 
-[dependencies.event]
+[dependencies.pistoncore-event]
 
 git = "https://github.com/PistonDevelopers/event"
 
