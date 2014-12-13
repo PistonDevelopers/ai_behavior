@@ -1,12 +1,12 @@
 [package]
 
 name = "piston-ai_behavior"
-version = "0.0.0"
+version = "0.0.1"
 authors = [
     "bvssvni <bvssvni@gmail.com>",
     "Coeuvre <coeuvre@gmail.com>"
 ]
-tags = ["ai", "behavior", "piston", "game", "logic"]
+keywords = ["ai", "behavior", "piston", "game", "logic"]
 description = "AI behavior tree"
 license = "MIT"
 readme = "README.md"
