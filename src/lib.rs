@@ -1,4 +1,5 @@
 #![deny(missing_docs)]
+#![deny(missing_copy_implementations)]
 
 //! AI behavior tree
 
