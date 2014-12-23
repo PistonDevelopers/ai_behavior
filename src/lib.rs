@@ -5,7 +5,7 @@
 
 extern crate event;
 extern crate input;
-extern crate serialize;
+extern crate "rustc-serialize" as rustc_serialize;
 
 pub use behavior::Behavior;
 pub use behavior::Behavior::{
