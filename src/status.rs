@@ -1,6 +1,6 @@
 
 /// The result of a behavior or action.
-#[deriving(Copy, Clone, RustcDecodable, RustcEncodable, PartialEq, Eq, Show)]
+#[derive(Copy, Clone, RustcDecodable, RustcEncodable, PartialEq, Eq, Show)]
 pub enum Status {
     /// The behavior or action succeeded.
     Success,
