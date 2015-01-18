@@ -22,6 +22,10 @@ path = "src/lib.rs"
 
 git = "https://github.com/PistonDevelopers/event"
 
+[dependencies.pistoncore-input]
+
+git = "https://github.com/PistonDevelopers/input"
+
 [dependencies]
 
 rustc-serialize = "*"
