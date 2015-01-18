@@ -18,7 +18,7 @@ use test_events::TestActions::{
 };
 
 /// Some test actions.
-#[deriving(Clone)]
+#[derive(Clone)]
 pub enum TestActions {
     /// Increment accumulator.
     Inc,
@@ -100,7 +100,7 @@ fn wait_two_waits() {
 #[test]
 fn loop_ten_times() {
     let a: u32 = 0;
-    let rep = While(box Wait(50.0), vec![Wait(0.5), Action(Inc), Wait(0.5)]);
+    let rep = While(Box::new(Wait(50.0)), vec![Wait(0.5), Action(Inc), Wait(0.5)]);
     let mut state = State::new(rep);
     let a = exec(a, 10.0, &mut state);
     assert_eq!(a, 10);

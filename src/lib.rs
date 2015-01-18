@@ -1,6 +1,5 @@
 #![deny(missing_docs)]
 #![deny(missing_copy_implementations)]
-#![feature(old_orphan_check)]
 
 //! AI behavior tree
 
