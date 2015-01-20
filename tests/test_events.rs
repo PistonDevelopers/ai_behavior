@@ -29,7 +29,7 @@ pub enum TestActions {
 // A test state machine that can increment and decrement.
 fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>) -> u32 {
     let e: Event = Update(UpdateArgs { dt: dt });
-    state.event(&e, |_, dt, action, _| {
+    state.event(&e, &mut |_, dt, action, _| {
         match *action {
             Inc => { acc += 1; (Success, dt) },
             Dec => { acc -= 1; (Success, dt) },
