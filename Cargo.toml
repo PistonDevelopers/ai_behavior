@@ -19,12 +19,12 @@ name = "ai_behavior"
 path = "src/lib.rs"
 
 [dependencies.pistoncore-event]
-
 git = "https://github.com/PistonDevelopers/event"
+#version = "0.0.5"
 
 [dependencies.pistoncore-input]
-
 git = "https://github.com/PistonDevelopers/input"
+#version = "0.0.5"
 
 [dependencies]
 
