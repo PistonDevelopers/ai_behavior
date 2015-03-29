@@ -1,5 +1,7 @@
+use std::f64;
+use std::num::Float;
+use std::marker::Reflect;
 
-use std;
 use input;
 use event::{
     GenericEvent,
@@ -44,7 +46,6 @@ use state::State::{
     WhenAnyState,
     AfterState,
 };
-use std::num::Float;
 
 pub static RUNNING: (Status, f64) = (Running, 0.0);
 
@@ -92,7 +93,7 @@ pub enum State<A, S> {
 //
 // `Sequence` fails if any fails and succeeds when all succeeds.
 // `Select` succeeds if any succeeds and fails when all fails.
-fn sequence<A: Clone, S, E: GenericEvent, F>(
+fn sequence<A, S, E, F>(
     select: bool,
     upd: Option<f64>,
     seq: &Vec<Behavior<A>>,
@@ -102,6 +103,8 @@ fn sequence<A: Clone, S, E: GenericEvent, F>(
     f: &mut F
 ) -> (Status, f64)
     where
+        A: Clone,
+        E: GenericEvent + Reflect,
         F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
 {
     let (status, inv_status) = if select {
@@ -157,7 +160,7 @@ fn sequence<A: Clone, S, E: GenericEvent, F>(
 //
 // `WhenAll` fails if any fails and succeeds when all succeeds.
 // `WhenAny` succeeds if any succeeds and fails when all fails.
-fn when_all<A: Clone, S, E: GenericEvent, F>(
+fn when_all<A, S, E, F>(
     any: bool,
     upd: Option<f64>,
     cursors: &mut Vec<Option<State<A, S>>>,
@@ -165,6 +168,8 @@ fn when_all<A: Clone, S, E: GenericEvent, F>(
     f: &mut F
 ) -> (Status, f64)
     where
+        A: Clone,
+        E: GenericEvent + Reflect,
         F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
 {
     let (status, inv_status) = if any {
@@ -175,7 +180,7 @@ fn when_all<A: Clone, S, E: GenericEvent, F>(
         (Success, Failure)
     };
     // Get the least delta time left over.
-    let mut min_dt = std::f64::MAX_VALUE;
+    let mut min_dt = f64::MAX;
     // Count number of terminated events.
     let mut terminated = 0;
     for cur in cursors.iter_mut() {
@@ -259,12 +264,13 @@ impl<A: Clone, S> State<A, S> {
     ///
     /// Passes event, delta time in seconds, action and state to closure.
     /// The closure should return a status and remaining delta time.
-    pub fn event<E: GenericEvent, F>(
+    pub fn event<E, F>(
         &mut self,
         e: &E,
         f: &mut F
     ) -> (Status, f64)
         where
+            E: GenericEvent + Reflect,
             F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
     {
         let upd = e.update(|args| Some(args.dt)).unwrap_or(None);
@@ -411,7 +417,7 @@ impl<A: Clone, S> State<A, S> {
             }
             (_, &mut AfterState(ref mut i, ref mut cursors)) => {
                 // Get the least delta time left over.
-                let mut min_dt = std::f64::MAX_VALUE;
+                let mut min_dt = f64::MAX;
                 for j in (*i..cursors.len()) {
                     match cursors[j].event(e, f) {
                         (Running, _) => { min_dt = 0.0; }
