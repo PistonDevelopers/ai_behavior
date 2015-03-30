@@ -1,6 +1,5 @@
 use std::f64;
 use std::num::Float;
-use std::marker::Reflect;
 
 use input;
 use event::{
@@ -104,7 +103,7 @@ fn sequence<A, S, E, F>(
 ) -> (Status, f64)
     where
         A: Clone,
-        E: GenericEvent + Reflect,
+        E: GenericEvent,
         F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
 {
     let (status, inv_status) = if select {
@@ -169,7 +168,7 @@ fn when_all<A, S, E, F>(
 ) -> (Status, f64)
     where
         A: Clone,
-        E: GenericEvent + Reflect,
+        E: GenericEvent,
         F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
 {
     let (status, inv_status) = if any {
@@ -270,7 +269,7 @@ impl<A: Clone, S> State<A, S> {
         f: &mut F
     ) -> (Status, f64)
         where
-            E: GenericEvent + Reflect,
+            E: GenericEvent,
             F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
     {
         let upd = e.update(|args| Some(args.dt)).unwrap_or(None);
