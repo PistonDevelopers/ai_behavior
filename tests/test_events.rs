@@ -1,7 +1,7 @@
-use event::Event::{
+use piston::event::Event::{
     Update,
 };
-use event::{Event, UpdateArgs};
+use piston::event::{Event, UpdateArgs};
 use ai_behavior::{
     Action,
     State,
