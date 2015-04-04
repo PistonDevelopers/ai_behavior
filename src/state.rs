@@ -1,8 +1,8 @@
 use std::f64;
-use std::num::Float;
+use num::Float;
 
-use input;
-use event::{
+use piston::input;
+use piston::event::{
     GenericEvent,
     PressEvent,
     ReleaseEvent,
