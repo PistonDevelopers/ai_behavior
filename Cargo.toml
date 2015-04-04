@@ -1,7 +1,7 @@
 [package]
 
 name = "piston-ai_behavior"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
     "bvssvni <bvssvni@gmail.com>",
     "Coeuvre <coeuvre@gmail.com>"
@@ -18,17 +18,14 @@ homepage = "https://github.com/pistondevelopers/ai_behavior"
 name = "ai_behavior"
 path = "src/lib.rs"
 
-[dependencies.pistoncore-event]
-git = "https://github.com/PistonDevelopers/event"
-#version = "0.0.12"
-
-[dependencies.pistoncore-input]
-git = "https://github.com/PistonDevelopers/input"
-#version = "0.0.7"
+[dependencies.piston]
+git = "https://github.com/PistonDevelopers/piston"
+#version = "0.1.0"
 
 [dependencies]
 
 rustc-serialize = "*"
+num = "0.1.21"
 
 [[test]]
 

@@ -3,8 +3,8 @@
 
 //! AI behavior tree
 
-extern crate event;
-extern crate input;
+extern crate piston;
+extern crate num;
 extern crate rustc_serialize;
 
 pub use behavior::Behavior;

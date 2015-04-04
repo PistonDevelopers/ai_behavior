@@ -1,5 +1,5 @@
 
-use input;
+use piston::input::Button;
 
 /// Describes a behavior.
 ///
@@ -8,9 +8,9 @@ use input;
 #[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
 pub enum Behavior<A> {
     /// A button was pressed.
-    Pressed(input::Button),
+    Pressed(Button),
     /// A button was released.
-    Released(input::Button),
+    Released(Button),
     /// A high level description of an action.
     Action(A),
     /// Converts `Success` into `Failure` and vice versa.
