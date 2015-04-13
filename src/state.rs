@@ -119,7 +119,7 @@ fn sequence<A, S, E, F>(
         match cursor.event(
             match upd {
                 Some(_) => {
-                    remaining_e = UpdateEvent::from_dt(remaining_dt).unwrap();
+                    remaining_e = UpdateEvent::from_dt(remaining_dt, e).unwrap();
                     &remaining_e
                 }
                 _ => e
@@ -348,7 +348,7 @@ impl<A: Clone, S> State<A, S> {
                             return state.event(match upd {
                                 Some(_) => {
                                     remaining_e = UpdateEvent::from_dt(
-                                        remaining_dt).unwrap();
+                                        remaining_dt, e).unwrap();
                                     &remaining_e
                                 }
                                 _ => e
@@ -379,7 +379,7 @@ impl<A: Clone, S> State<A, S> {
                     match cur.event(match upd {
                             Some(_) => {
                                 remaining_e = UpdateEvent::from_dt(
-                                    remaining_dt).unwrap();
+                                    remaining_dt, e).unwrap();
                                 &remaining_e
                             }
                             _ => e
