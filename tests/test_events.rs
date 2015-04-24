@@ -1,7 +1,5 @@
-use piston::event::Event::{
-    Update,
-};
-use piston::event::{Event, UpdateArgs};
+use piston::event::Event::{ self, Update };
+use piston::event::UpdateArgs;
 use ai_behavior::{
     Action,
     State,
@@ -12,10 +10,7 @@ use ai_behavior::{
     While,
 };
 
-use test_events::TestActions::{
-    Inc,
-    Dec,
-};
+use test_events::TestActions::{ Inc, Dec };
 
 /// Some test actions.
 #[derive(Clone)]

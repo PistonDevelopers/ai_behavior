@@ -4,11 +4,10 @@
 //! AI behavior tree
 
 extern crate piston;
-extern crate num;
 extern crate rustc_serialize;
 
-pub use behavior::Behavior;
 pub use behavior::Behavior::{
+    self,
     Action,
     After,
     AlwaysSucceed,
@@ -25,8 +24,8 @@ pub use behavior::Behavior::{
     While,
 };
 pub use state::State;
-pub use status::Status;
 pub use status::Status::{
+    self,
     Failure,
     Success,
     Running,

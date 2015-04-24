@@ -1,5 +1,4 @@
 use std::f64;
-use num::Float;
 
 use piston::input;
 use piston::event::{
@@ -46,7 +45,7 @@ use state::State::{
     AfterState,
 };
 
-pub static RUNNING: (Status, f64) = (Running, 0.0);
+pub const RUNNING: (Status, f64) = (Running, 0.0);
 
 /// Keeps track of a behavior.
 #[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
@@ -219,7 +218,7 @@ fn when_all<A, S, E, F>(
 
 impl<A: Clone, S> State<A, S> {
     /// Creates a state from a behavior.
-    pub fn new(behavior: Behavior<A>) -> State<A, S> {
+    pub fn new(behavior: Behavior<A>) -> Self {
         match behavior {
             Pressed(button) => PressedState(button),
             Released(button) => ReleasedState(button),
