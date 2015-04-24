@@ -1,4 +1,3 @@
-
 use piston::input::Button;
 
 /// Describes a behavior.
