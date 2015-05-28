@@ -17,12 +17,8 @@ homepage = "https://github.com/pistondevelopers/ai_behavior"
 
 name = "ai_behavior"
 
-[dependencies.piston]
-git = "https://github.com/PistonDevelopers/piston"
-#version = "0.1.0"
-
 [dependencies]
-
+piston = "0.1.3"
 rustc-serialize = "*"
 
 [[test]]
