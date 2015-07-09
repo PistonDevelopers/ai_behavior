@@ -323,7 +323,7 @@ impl<A: Clone, S> State<A, S> {
             (_, &mut IfState(ref success, ref failure,
                          ref mut status, ref mut state)) => {
                 let mut remaining_dt = upd.unwrap_or(0.0);
-                let mut remaining_e;
+                let remaining_e;
                 // Run in a loop to evaluate success or failure with
                 // remaining delta time after condition.
                 loop {
