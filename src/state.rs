@@ -47,6 +47,18 @@ use state::State::{
 
 pub const RUNNING: (Status, f64) = (Running, 0.0);
 
+/// The arguments in the action callback.
+pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
+    /// The event.
+    pub event: &'a E,
+    /// The remaining delta time.
+    pub dt: f64,
+    /// The action running.
+    pub action: &'a A,
+    /// The state of the running action, if any.
+    pub state: &'a mut Option<S>,
+}
+
 /// Keeps track of a behavior.
 #[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
 pub enum State<A, S> {
@@ -103,7 +115,7 @@ fn sequence<A, S, E, F>(
     where
         A: Clone,
         E: GenericEvent,
-        F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
+        F: FnMut(ActionArgs<E, A, S>) -> (Status, f64)
 {
     let (status, inv_status) = if select {
         // `Select`
@@ -168,7 +180,7 @@ fn when_all<A, S, E, F>(
     where
         A: Clone,
         E: GenericEvent,
-        F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
+        F: FnMut(ActionArgs<E, A, S>) -> (Status, f64)
 {
     let (status, inv_status) = if any {
         // `WhenAny`
@@ -269,7 +281,7 @@ impl<A: Clone, S> State<A, S> {
     ) -> (Status, f64)
         where
             E: GenericEvent,
-            F: FnMut(&E, f64, &A, &mut Option<S>) -> (Status, f64)
+            F: FnMut(ActionArgs<E, A, S>) -> (Status, f64)
     {
         let upd = e.update(|args| Some(args.dt)).unwrap_or(None);
         match (upd, self) {
@@ -295,7 +307,12 @@ impl<A: Clone, S> State<A, S> {
             }
             (_, &mut ActionState(ref action, ref mut state)) => {
                 // Execute action.
-                f(e, upd.unwrap_or(0.0), action, state)
+                f(ActionArgs {
+                    event: e,
+                    dt: upd.unwrap_or(0.0),
+                    action: action,
+                    state: state
+                })
             }
             (_, &mut FailState(ref mut cur)) => {
                 match cur.event(e, f) {
