@@ -45,6 +45,7 @@ use state::State::{
     AfterState,
 };
 
+/// The action is still running.
 pub const RUNNING: (Status, f64) = (Running, 0.0);
 
 /// The arguments in the action callback.

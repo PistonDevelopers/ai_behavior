@@ -23,7 +23,7 @@ pub use behavior::Behavior::{
     WhenAny,
     While,
 };
-pub use state::{ ActionArgs, State };
+pub use state::{ ActionArgs, State, RUNNING };
 pub use status::Status::{
     self,
     Failure,
