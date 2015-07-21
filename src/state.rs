@@ -1,7 +1,7 @@
 use std::f64;
 
-use piston::input;
-use piston::event::{
+use input;
+use event::{
     GenericEvent,
     PressEvent,
     ReleaseEvent,
