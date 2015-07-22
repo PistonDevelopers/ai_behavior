@@ -1,7 +1,7 @@
 use std::f64;
 
 use input;
-use event::{
+use input::{
     GenericEvent,
     PressEvent,
     ReleaseEvent,
