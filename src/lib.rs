@@ -3,7 +3,6 @@
 
 //! AI behavior tree
 
-extern crate event;
 extern crate input;
 extern crate rustc_serialize;
 

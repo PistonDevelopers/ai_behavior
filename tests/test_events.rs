@@ -1,5 +1,5 @@
-use piston::event::Event::{ self, Update };
-use piston::event::UpdateArgs;
+use input::Event::{ self, Update };
+use input::UpdateArgs;
 use ai_behavior::{
     Action,
     State,
