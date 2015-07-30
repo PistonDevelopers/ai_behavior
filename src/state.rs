@@ -150,6 +150,10 @@ fn sequence<A, S, E, F>(
                     _ => if *i == seq.len() - 1 {
                             return (status, new_dt)
                         } else {
+                            *i += 1;
+                            // Create a new cursor for next event.
+                            // Use the same pointer to avoid allocation.
+                            **cursor  = State::new(seq[*i].clone());
                             return RUNNING
                         }
                 }
