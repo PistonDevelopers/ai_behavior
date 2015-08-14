@@ -418,7 +418,6 @@ impl<A: Clone, S> State<A, S> {
                             }
                         }
                     };
-                    if remaining_dt == 0.0 { break }
                     *i += 1;
                     // If end of repeated events,
                     // start over from the first one.
@@ -426,6 +425,7 @@ impl<A: Clone, S> State<A, S> {
                     // Create a new cursor for next event.
                     // Use the same pointer to avoid allocation.
                     **cur = State::new(rep[*i].clone());
+                    if remaining_dt == 0.0 { break }
                 }
                 RUNNING
             }

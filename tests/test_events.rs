@@ -107,10 +107,22 @@ fn loop_ten_times() {
 #[test]
 fn all_time() {
     let a: u32 = 0;
-    let rep = While(Box::new(WaitForever), vec![Sequence(vec![Action(Inc)])]);
+    let rep = While(Box::new(WaitForever), vec![Action(Inc)]);
     let mut state = State::new(rep);
     let a = exec(a, 10.0, &mut state, true);
     assert_eq!(a, 1);
+}
+
+// Increase then decrease counter using all available time
+#[test]
+fn all_time_twice() {
+    let a: u32 = 0;
+    let rep = While(Box::new(WaitForever), vec![Action(Inc), Action(Dec)]);
+    let mut state = State::new(rep);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 1);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 0);
 }
 
 #[test]
