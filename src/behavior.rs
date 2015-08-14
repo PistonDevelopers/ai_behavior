@@ -4,7 +4,7 @@ use input::Button;
 ///
 /// This is used for more complex event logic.
 /// Can also be used for game AI.
-#[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
+#[derive(Clone, Debug, RustcDecodable, RustcEncodable, PartialEq)]
 pub enum Behavior<A> {
     /// A button was pressed.
     Pressed(Button),

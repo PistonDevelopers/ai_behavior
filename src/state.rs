@@ -49,6 +49,7 @@ use state::State::{
 pub const RUNNING: (Status, f64) = (Running, 0.0);
 
 /// The arguments in the action callback.
+#[derive(Debug)]
 pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
     /// The event.
     pub event: &'a E,
@@ -61,7 +62,7 @@ pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
 }
 
 /// Keeps track of a behavior.
-#[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
+#[derive(Clone, Debug, RustcDecodable, RustcEncodable, PartialEq)]
 pub enum State<A, S> {
     /// Returns `Success` when button is pressed.
     PressedState(input::Button),

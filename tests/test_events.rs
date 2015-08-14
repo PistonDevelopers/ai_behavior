@@ -14,7 +14,7 @@ use ai_behavior::{
 use test_events::TestActions::{ Inc, Dec };
 
 /// Some test actions.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum TestActions {
     /// Increment accumulator.
     Inc,
