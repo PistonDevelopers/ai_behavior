@@ -6,6 +6,7 @@ use ai_behavior::{
     Sequence,
     Success,
     Wait,
+    WaitForever,
     WhenAll,
     While,
 };
@@ -22,13 +23,14 @@ pub enum TestActions {
 }
 
 // A test state machine that can increment and decrement.
-fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>) -> u32 {
+fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>, all_time: bool) -> u32 {
     let e: Event = Update(UpdateArgs { dt: dt });
     state.event(&e, &mut |args| {
         match *args.action {
-            Inc => { acc += 1; (Success, args.dt) },
-            Dec => { acc -= 1; (Success, args.dt) },
+            Inc => acc += 1,
+            Dec => acc -= 1,
         }
+        (Success, if all_time { 0.0 } else { args.dt })
     });
     acc
 }
@@ -42,7 +44,7 @@ fn print_2() {
     let a: u32 = 0;
     let seq = Sequence(vec![Action(Inc), Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 0.0, &mut state);
+    let a = exec(a, 0.0, &mut state, false);
     assert_eq!(a, 2);
 }
 
@@ -54,7 +56,7 @@ fn wait_sec() {
     let a: u32 = 0;
     let seq = Sequence(vec![Wait(1.0), Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 1.0, &mut state);
+    let a = exec(a, 1.0, &mut state, false);
     assert_eq!(a, 1);
 }
 
@@ -65,9 +67,9 @@ fn wait_half_sec() {
     let a: u32 = 0;
     let seq = Sequence(vec![Wait(1.0), Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 0.5, &mut state);
+    let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 0);
-    let a = exec(a, 0.5, &mut state);
+    let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 1);
 }
 
@@ -77,7 +79,7 @@ fn sequence_of_one_event() {
     let a: u32 = 0;
     let seq = Sequence(vec![Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 1.0, &mut state);
+    let a = exec(a, 1.0, &mut state, false);
     assert_eq!(a, 1);
 }
 
@@ -87,7 +89,7 @@ fn wait_two_waits() {
     let a: u32 = 0;
     let seq = Sequence(vec![Wait(0.5), Wait(0.5), Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 1.0, &mut state);
+    let a = exec(a, 1.0, &mut state, false);
     assert_eq!(a, 1);
 }
 
@@ -97,8 +99,18 @@ fn loop_ten_times() {
     let a: u32 = 0;
     let rep = While(Box::new(Wait(50.0)), vec![Wait(0.5), Action(Inc), Wait(0.5)]);
     let mut state = State::new(rep);
-    let a = exec(a, 10.0, &mut state);
+    let a = exec(a, 10.0, &mut state, false);
     assert_eq!(a, 10);
+}
+
+// Increase counter once using all available time
+#[test]
+fn all_time() {
+    let a: u32 = 0;
+    let rep = While(Box::new(WaitForever), vec![Sequence(vec![Action(Inc)])]);
+    let mut state = State::new(rep);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 1);
 }
 
 #[test]
@@ -110,8 +122,8 @@ fn when_all_wait() {
             Action(Inc)
         ]);
     let mut state = State::new(all);
-    let a = exec(a, 0.5, &mut state);
+    let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 0);
-    let a = exec(a, 0.5, &mut state);
+    let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 1);
 }
