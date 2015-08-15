@@ -39,17 +39,19 @@ fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>, all_time: boo
 // consumes a time of 0.0 seconds.
 // This makes it possible to execute one action
 // after another without delay or waiting for next update.
+// so long as there is time remaining.
 #[test]
 fn print_2() {
     let a: u32 = 0;
     let seq = Sequence(vec![Action(Inc), Action(Inc)]);
     let mut state = State::new(seq);
-    let a = exec(a, 0.0, &mut state, false);
+    let a = exec(a, 0.1, &mut state, false);
     assert_eq!(a, 2);
 }
 
 // If you wait the exact amount before to execute an action,
-// it will execute. This behavior makes it easy to predict
+// it will not execute. There must be time remaining
+// for the action to run. This behavior makes it easy to predict
 // when an action will run.
 #[test]
 fn wait_sec() {
@@ -57,16 +59,20 @@ fn wait_sec() {
     let seq = Sequence(vec![Wait(1.0), Action(Inc)]);
     let mut state = State::new(seq);
     let a = exec(a, 1.0, &mut state, false);
+    assert_eq!(a, 0);
+    let a = exec(a, 1.0, &mut state, false);
     assert_eq!(a, 1);
 }
 
 // When we execute half the time and then the other half,
-// then the action should be executed.
+// then give some time then the action should be executed.
 #[test]
 fn wait_half_sec() {
     let a: u32 = 0;
     let seq = Sequence(vec![Wait(1.0), Action(Inc)]);
     let mut state = State::new(seq);
+    let a = exec(a, 0.5, &mut state, false);
+    assert_eq!(a, 0);
     let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 0);
     let a = exec(a, 0.5, &mut state, false);
@@ -89,6 +95,8 @@ fn wait_two_waits() {
     let a: u32 = 0;
     let seq = Sequence(vec![Wait(0.5), Wait(0.5), Action(Inc)]);
     let mut state = State::new(seq);
+    let a = exec(a, 1.0, &mut state, false);
+    assert_eq!(a, 0);
     let a = exec(a, 1.0, &mut state, false);
     assert_eq!(a, 1);
 }
@@ -141,7 +149,8 @@ fn all_time_sequence() {
     assert_eq!(a, 0);
 }
 
-
+// two waits in parallel is the same as one wait
+// of the longest wait.
 #[test]
 fn when_all_wait() {
     let a: u32 = 0;
@@ -151,6 +160,8 @@ fn when_all_wait() {
             Action(Inc)
         ]);
     let mut state = State::new(all);
+    let a = exec(a, 0.5, &mut state, false);
+    assert_eq!(a, 0);
     let a = exec(a, 0.5, &mut state, false);
     assert_eq!(a, 0);
     let a = exec(a, 0.5, &mut state, false);
