@@ -125,6 +125,23 @@ fn all_time_twice() {
     assert_eq!(a, 0);
 }
 
+// Increase then decrease counter using all available time inside a sequence
+#[test]
+fn all_time_sequence() {
+    let a: u32 = 0;
+    let rep = While(Box::new(WaitForever), vec![Sequence(vec![Action(Inc), Action(Dec)])]);
+    let mut state = State::new(rep);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 1);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 0);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 1);
+    let a = exec(a, 10.0, &mut state, true);
+    assert_eq!(a, 0);
+}
+
+
 #[test]
 fn when_all_wait() {
     let a: u32 = 0;

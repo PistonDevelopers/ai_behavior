@@ -168,6 +168,7 @@ fn sequence<A, S, E, F>(
         // Create a new cursor for next event.
         // Use the same pointer to avoid allocation.
         **cursor  = State::new(seq[*i].clone());
+        if remaining_dt == 0.0 { break }
     }
     RUNNING
 }
