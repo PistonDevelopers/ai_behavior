@@ -49,6 +49,7 @@ use state::State::{
 pub const RUNNING: (Status, f64) = (Running, 0.0);
 
 /// The arguments in the action callback.
+#[derive(Debug)]
 pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
     /// The event.
     pub event: &'a E,
@@ -61,7 +62,7 @@ pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
 }
 
 /// Keeps track of a behavior.
-#[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
+#[derive(Clone, Debug, RustcDecodable, RustcEncodable, PartialEq)]
 pub enum State<A, S> {
     /// Returns `Success` when button is pressed.
     PressedState(input::Button),
@@ -167,6 +168,7 @@ fn sequence<A, S, E, F>(
         // Create a new cursor for next event.
         // Use the same pointer to avoid allocation.
         **cursor  = State::new(seq[*i].clone());
+        if remaining_dt == 0.0 { break }
     }
     RUNNING
 }
@@ -424,6 +426,7 @@ impl<A: Clone, S> State<A, S> {
                     // Create a new cursor for next event.
                     // Use the same pointer to avoid allocation.
                     **cur = State::new(rep[*i].clone());
+                    if remaining_dt == 0.0 { break }
                 }
                 RUNNING
             }
