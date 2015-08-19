@@ -14,6 +14,7 @@ use test_events::TestActions::{ Inc, Dec };
 
 /// Some test actions.
 #[derive(Clone)]
+#[allow(dead_code)]
 pub enum TestActions {
     /// Increment accumulator.
     Inc,
@@ -114,4 +115,23 @@ fn when_all_wait() {
     assert_eq!(a, 0);
     let a = exec(a, 0.5, &mut state);
     assert_eq!(a, 1);
+}
+
+#[test]
+fn while_wait_sequence() {
+    let mut a: u32 = 0;
+    let w = While(Box::new(Wait(9.999999)), vec![
+        Sequence(vec![
+            Wait(0.5),
+            Action(Inc),
+            Wait(0.5),
+            Action(Inc)
+        ])
+    ]);
+    let mut state = State::new(w);
+    for _ in 0..100 {
+        a = exec(a, 0.1, &mut state);
+    }
+    // The last increment is never executed, because there is not enough time.
+    assert_eq!(a, 19);
 }
