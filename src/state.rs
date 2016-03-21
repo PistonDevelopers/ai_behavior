@@ -438,7 +438,7 @@ impl<A: Clone, S> State<A, S> {
             (_, &mut AfterState(ref mut i, ref mut cursors)) => {
                 // Get the least delta time left over.
                 let mut min_dt = f64::MAX;
-                for j in (*i..cursors.len()) {
+                for j in *i..cursors.len() {
                     match cursors[j].event(e, f) {
                         (Running, _) => { min_dt = 0.0; }
                         (Success, new_dt) => {
