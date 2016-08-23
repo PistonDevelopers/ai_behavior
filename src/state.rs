@@ -3,8 +3,6 @@ use std::f64;
 use input;
 use input::{
     GenericEvent,
-    PressEvent,
-    ReleaseEvent,
     UpdateEvent,
 };
 use {
