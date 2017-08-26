@@ -1,5 +1,4 @@
-use input::Input::{ self, Update };
-use input::UpdateArgs;
+use input::{Event, UpdateArgs};
 use ai_behavior::{
     Action,
     State,
@@ -24,7 +23,7 @@ pub enum TestActions {
 
 // A test state machine that can increment and decrement.
 fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>) -> u32 {
-    let e: Input = Update(UpdateArgs { dt: dt });
+    let e: Event = UpdateArgs { dt: dt }.into();
     state.event(&e, &mut |args| {
         match *args.action {
             Inc => { acc += 1; (Success, args.dt) },

@@ -4,7 +4,9 @@
 //! AI behavior tree
 
 extern crate input;
-extern crate rustc_serialize;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
 
 pub use behavior::Behavior::{
     self,
