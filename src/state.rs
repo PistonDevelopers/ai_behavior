@@ -59,7 +59,7 @@ pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
 }
 
 /// Keeps track of a behavior.
-#[derive(Clone, RustcDecodable, RustcEncodable, PartialEq)]
+#[derive(Clone, Deserialize, Serialize, PartialEq)]
 pub enum State<A, S> {
     /// Returns `Success` when button is pressed.
     PressedState(input::Button),
