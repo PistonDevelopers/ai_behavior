@@ -5,6 +5,7 @@ use ai_behavior::{
     Sequence,
     Success,
     Wait,
+    WaitForever,
     WhenAll,
     While,
 };
@@ -133,4 +134,18 @@ fn while_wait_sequence() {
     }
     // The last increment is never executed, because there is not enough time.
     assert_eq!(a, 19);
+}
+
+#[test]
+fn while_wait_forever_sequence() {
+    let mut a: u32 = 0;
+    let w = While(Box::new(WaitForever), vec![
+        Sequence(vec![
+            Action(Inc),
+            Wait(1.0),
+        ])
+    ]);
+    let mut state = State::new(w);
+    a = exec(a, 1.001, &mut state);
+    assert_eq!(a, 2);
 }
