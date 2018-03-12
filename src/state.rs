@@ -13,8 +13,8 @@ use {
     Failure,
     If,
     Fail,
-    Pressed,
-    Released,
+    WaitForPressed,
+    WaitForReleased,
     Running,
     Select,
     Sequence,
@@ -27,8 +27,8 @@ use {
     While,
 };
 use state::State::{
-    PressedState,
-    ReleasedState,
+    WaitForPressedState,
+    WaitForReleasedState,
     ActionState,
     FailState,
     AlwaysSucceedState,
@@ -62,9 +62,9 @@ pub struct ActionArgs<'a, E: 'a, A: 'a, S: 'a> {
 #[derive(Clone, Deserialize, Serialize, PartialEq)]
 pub enum State<A, S> {
     /// Returns `Success` when button is pressed.
-    PressedState(input::Button),
+    WaitForPressedState(input::Button),
     /// Returns `Success` when button is released.
-    ReleasedState(input::Button),
+    WaitForReleasedState(input::Button),
     /// Executes an action.
     ActionState(A, Option<S>),
     /// Converts `Success` into `Failure` and vice versa.
@@ -235,8 +235,8 @@ impl<A: Clone, S> State<A, S> {
     /// Creates a state from a behavior.
     pub fn new(behavior: Behavior<A>) -> Self {
         match behavior {
-            Pressed(button) => PressedState(button),
-            Released(button) => ReleasedState(button),
+            WaitForPressed(button) => WaitForPressedState(button),
+            WaitForReleased(button) => WaitForReleasedState(button),
             Action(action) => ActionState(action, None),
             Fail(ev) => FailState(Box::new(State::new(*ev))),
             AlwaysSucceed(ev) => AlwaysSucceedState(Box::new(State::new(*ev))),
@@ -288,7 +288,7 @@ impl<A: Clone, S> State<A, S> {
     {
         let upd = e.update(|args| Some(args.dt)).unwrap_or(None);
         match (upd, self) {
-            (None, &mut PressedState(button)) => {
+            (None, &mut WaitForPressedState(button)) => {
                 e.press(|button_pressed| {
                     if button_pressed != button { return RUNNING; }
 
@@ -298,7 +298,7 @@ impl<A: Clone, S> State<A, S> {
                     (Success, 0.0)
                 }).unwrap_or(RUNNING)
             }
-            (None, &mut ReleasedState(button)) => {
+            (None, &mut WaitForReleasedState(button)) => {
                 e.release(|button_released| {
                     if button_released != button { return RUNNING; }
 
