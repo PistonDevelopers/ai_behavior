@@ -6,10 +6,22 @@ use input::Button;
 /// Can also be used for game AI.
 #[derive(Clone, Deserialize, Serialize, PartialEq)]
 pub enum Behavior<A> {
-    /// A button was pressed.
-    Pressed(Button),
-    /// A button was released.
-    Released(Button),
+    /// Wait for a button to be pressed.
+    ///
+    /// Returns `Success` when the button is pressed,
+    /// otherwise it returns `Running`.
+    WaitForPressed(Button),
+    /// Wait for a button to be released.
+    ///
+    /// Returns `Success` when the button is released,
+    /// otherwise it returns `Running`.
+    WaitForReleased(Button),
+    /// Waits an amount of time before continuing.
+    ///
+    /// f64: Time in seconds
+    Wait(f64),
+    /// Wait forever.
+    WaitForever,
     /// A high level description of an action.
     Action(A),
     /// Converts `Success` into `Failure` and vice versa.
@@ -22,12 +34,6 @@ pub enum Behavior<A> {
     /// Fails if the last behavior fails.
     /// Can be thought of as a short-circuited logical OR gate.
     Select(Vec<Behavior<A>>),
-    /// Waits an amount of time before continuing.
-    ///
-    /// f64: Time in seconds
-    Wait(f64),
-    /// Wait forever.
-    WaitForever,
     /// `If(condition, success, failure)`
     If(Box<Behavior<A>>, Box<Behavior<A>>, Box<Behavior<A>>),
     /// Runs behaviors one by one until all succeeded.
