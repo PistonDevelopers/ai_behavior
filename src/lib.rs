@@ -21,7 +21,7 @@
 //! For example, if you have a state `A` and a state `B`:
 //!
 //! - Move from state `A` to state `B` if `A` succeeds: `Sequence([A, B])`
-//! - Try `A` first and then try `B` is `A` fails: `Select([A, B])`
+//! - Try `A` first and then try `B` if `A` fails: `Select([A, B])`
 //! - Do `B` repeatedly while `A` runs: `While(A, [B])`
 //! - Do `A`, `B` forever: `While(WaitForever, [A, B])`
 //! - Wait for both `A` and `B` to complete: `WhenAll([A, B])`
