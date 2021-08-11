@@ -1,16 +1,7 @@
+use ai_behavior::{Action, Sequence, State, Success, Wait, WaitForever, WhenAll, While};
 use input::{Event, UpdateArgs};
-use ai_behavior::{
-    Action,
-    State,
-    Sequence,
-    Success,
-    Wait,
-    WaitForever,
-    WhenAll,
-    While,
-};
 
-use test_events::TestActions::{ Inc, Dec };
+use crate::test_events::TestActions::{Dec, Inc};
 
 /// Some test actions.
 #[derive(Clone)]
@@ -24,11 +15,15 @@ pub enum TestActions {
 
 // A test state machine that can increment and decrement.
 fn exec(mut acc: u32, dt: f64, state: &mut State<TestActions, ()>) -> u32 {
-    let e: Event = UpdateArgs { dt: dt }.into();
-    state.event(&e, &mut |args| {
-        match *args.action {
-            Inc => { acc += 1; (Success, args.dt) },
-            Dec => { acc -= 1; (Success, args.dt) },
+    let e: Event = UpdateArgs { dt }.into();
+    state.event(&e, &mut |args| match *args.action {
+        Inc => {
+            acc += 1;
+            (Success, args.dt)
+        }
+        Dec => {
+            acc -= 1;
+            (Success, args.dt)
         }
     });
     acc
@@ -96,7 +91,10 @@ fn wait_two_waits() {
 #[test]
 fn loop_ten_times() {
     let a: u32 = 0;
-    let rep = While(Box::new(Wait(50.0)), vec![Wait(0.5), Action(Inc), Wait(0.5)]);
+    let rep = While(
+        Box::new(Wait(50.0)),
+        vec![Wait(0.5), Action(Inc), Wait(0.5)],
+    );
     let mut state = State::new(rep);
     let a = exec(a, 10.0, &mut state);
     assert_eq!(a, 10);
@@ -106,10 +104,10 @@ fn loop_ten_times() {
 fn when_all_wait() {
     let a: u32 = 0;
     let all = Sequence(vec![
-            // Wait in parallel.
-            WhenAll(vec![Wait(0.5), Wait(1.0)]),
-            Action(Inc)
-        ]);
+        // Wait in parallel.
+        WhenAll(vec![Wait(0.5), Wait(1.0)]),
+        Action(Inc),
+    ]);
     let mut state = State::new(all);
     let a = exec(a, 0.5, &mut state);
     assert_eq!(a, 0);
@@ -120,14 +118,15 @@ fn when_all_wait() {
 #[test]
 fn while_wait_sequence() {
     let mut a: u32 = 0;
-    let w = While(Box::new(Wait(9.999999)), vec![
-        Sequence(vec![
+    let w = While(
+        Box::new(Wait(9.999999)),
+        vec![Sequence(vec![
             Wait(0.5),
             Action(Inc),
             Wait(0.5),
-            Action(Inc)
-        ])
-    ]);
+            Action(Inc),
+        ])],
+    );
     let mut state = State::new(w);
     for _ in 0..100 {
         a = exec(a, 0.1, &mut state);
@@ -139,12 +138,10 @@ fn while_wait_sequence() {
 #[test]
 fn while_wait_forever_sequence() {
     let mut a: u32 = 0;
-    let w = While(Box::new(WaitForever), vec![
-        Sequence(vec![
-            Action(Inc),
-            Wait(1.0),
-        ])
-    ]);
+    let w = While(
+        Box::new(WaitForever),
+        vec![Sequence(vec![Action(Inc), Wait(1.0)])],
+    );
     let mut state = State::new(w);
     a = exec(a, 1.001, &mut state);
     assert_eq!(a, 2);
