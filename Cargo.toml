@@ -1,6 +1,6 @@
 [package]
 name = "piston-ai_behavior"
-version = "0.32.0"
+version = "0.33.0"
 edition = "2018"
 authors = [
     "bvssvni <bvssvni@gmail.com>",
