@@ -21,6 +21,6 @@ fn main() {
             MyAction::A => println!("A"),
             MyAction::B => println!("B"),
         };
-        (Success, 0.0)
+        (Success, action_args.dt)
     });
 }
